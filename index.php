@@ -8,3 +8,5 @@ $villa = new Villa();
 
 $car->index();
 $villa->index();
+
+echo 'update';
