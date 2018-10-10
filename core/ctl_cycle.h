@@ -8,4 +8,8 @@ struct ctl_cycle_s {
     char                *root_dir;
 };
 
+struct ctl_core_conf_s {
+    int worker_processes;
+};
+
 #endif

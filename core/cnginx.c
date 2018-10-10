@@ -6,6 +6,36 @@ static void ctl_start_master_mode();
 ctl_cycle_t *ctl_init_cycle();
 int ctl_init_signals();
 
+static ctl_command_t ctl_core_commands[] = {
+    {
+        "worker_process",
+        CTL_CORE_COMMAND,
+        ctl_set_worker_process,
+        0,
+    },
+    ctl_null_command
+}
+
+ctl_module_t ctl_core_module = {
+    CTL_MODULE_V1,
+    ctl_core_commands,
+    ctl_create_core_conf
+};
+
+static void *
+ctl_create_core_conf(ctl_cycle_t *cycle)
+{
+    ctl_core_conf_t *ccf;
+    ccf = (ctl_core_conf_t *) malloc(sizeof(ctl_core_conf_t));
+    if(ccf == NULL) {
+        ctl_perror("Error: malloc memory for ctl_core_conf failed\n");
+        return NULL;
+    }
+
+    ccf->worker_processes = CTL_CONF_UNSET;
+    return ccf;
+}
+
 int main(int argc, const char *argv[])
 {
     ctl_cycle_t *cycle;
@@ -14,12 +44,10 @@ int main(int argc, const char *argv[])
         return CTL_ERROR;
     }
 
-    /*
-    ctl_cyle = (ctl_cycle_t *) malloc(sizeof(ctl_cycle_t));
-    if(ctl_cycle == NULL) {
-        ctl_perror("Error: malloc ctl_cyle !\n");
-        return -1;
-    }*/
+    if(ctl_modules_init() != CTL_OK) {
+        ctl_perror("Error: init molues failed !\n");
+        return CTL_ERROR;
+    }
 
     cycle = ctl_init_cycle();
     if(cycle == NULL) {
