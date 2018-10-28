@@ -1,8 +1,14 @@
 #include <ctl_core.h>
+#include <ctl_conf_file.h>
+#include <ctl_cycle.h>
+#include <ctl_modules.h>
 
 static int ctl_parse_option(int, const char **);
 static void ctl_start_master_mode();
+static void *ctl_create_core_conf(ctl_cycle_t *);
+static int ctl_set_worker_process();
 
+int ctl_modules_init();
 ctl_cycle_t *ctl_init_cycle();
 int ctl_init_signals();
 
@@ -11,10 +17,10 @@ static ctl_command_t ctl_core_commands[] = {
         "worker_process",
         CTL_CORE_COMMAND,
         ctl_set_worker_process,
-        0,
+        0
     },
     ctl_null_command
-}
+};
 
 ctl_module_t ctl_core_module = {
     CTL_MODULE_V1,
@@ -25,7 +31,10 @@ ctl_module_t ctl_core_module = {
 static void *
 ctl_create_core_conf(ctl_cycle_t *cycle)
 {
+    if(cycle == NULL) return NULL;
+
     ctl_core_conf_t *ccf;
+
     ccf = (ctl_core_conf_t *) malloc(sizeof(ctl_core_conf_t));
     if(ccf == NULL) {
         ctl_perror("Error: malloc memory for ctl_core_conf failed\n");
@@ -66,7 +75,7 @@ int main(int argc, const char *argv[])
 }
 
 static int
-ctl_parse_option(int argc, const char **)
+ctl_parse_option(int argc, const char **argv)
 {
     char option;
     int rc = CTL_OK;
@@ -91,7 +100,7 @@ ctl_parse_option(int argc, const char **)
             ctl_pinfo("-h help\n-v show version\n");
             break;
         case 'v':
-            ctl_pinfo("CTL Nginx Version: ",CNGINX,"\n");
+            ctl_pinfo("CTL Nginx Version: "CNGINX"\n");
             break;
         default:
             ctl_perror("Invalid Option !");
@@ -103,8 +112,20 @@ done:
     return rc;
 }
 
+int
+ctl_init_signals()
+{
+    return CTL_OK;
+}
+
 static void
 ctl_start_master_mode()
 {
 
+}
+
+static int
+ctl_set_worker_process()
+{
+    return CTL_OK;
 }

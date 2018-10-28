@@ -1,3 +1,5 @@
+#include <ctl_core.h>
+#include <ctl_modules.h>
 
 extern ctl_module_t ctl_core_module;
 extern ctl_module_t ctl_conf_module;
@@ -31,4 +33,6 @@ ctl_modules_init() {
     }
 
     ctl_modules_n = i;
+
+    return CTL_OK;
 }

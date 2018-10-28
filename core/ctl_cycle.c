@@ -1,13 +1,18 @@
+#include <ctl_core.h>
 #include <ctl_cycle.h>
+#include <ctl_modules.h>
 
 extern ctl_module_t **ctl_modules;
+extern int ctl_modules_n;
 
 volatile ctl_cycle_t *ctl_cycle;
 
 ctl_cycle_t *
 ctl_init_cycle()
 {
-    cycle = (ctl_cycle_t *) malloc(sizeof(ctl_cycle_t));
+    int i;
+    void *rv;
+    ctl_cycle_t *cycle = (ctl_cycle_t *) malloc(sizeof(ctl_cycle_t));
     if(cycle == NULL) {
         ctl_perror("Error: malloc memory for ctl_cycle\n");
         return NULL;
@@ -16,7 +21,7 @@ ctl_init_cycle()
     cycle->root_dir = CTL_NGX_PREFIX;
     cycle->conf_file = CTL_CONF_FILE;
 
-    ctx = (void *) malloc(ctl_modules_n * sizeof(void *));
+    void *ctx = (void *) malloc(ctl_modules_n * sizeof(void *));
     if(ctx == NULL) {
         ctl_perror("Error: malloc memory for cycle->ctx\n");
         return NULL;
