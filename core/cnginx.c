@@ -8,7 +8,6 @@ static void ctl_start_master_mode();
 static void *ctl_create_core_conf(ctl_cycle_t *);
 static int ctl_set_worker_process();
 
-int ctl_modules_init();
 ctl_cycle_t *ctl_init_cycle();
 int ctl_init_signals();
 

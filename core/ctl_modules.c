@@ -1,4 +1,5 @@
 #include <ctl_core.h>
+#include <ctl_cycle.h>
 #include <ctl_modules.h>
 
 extern ctl_module_t ctl_core_module;
@@ -25,7 +26,8 @@ char *ctl_module_names[] = {
 };
 
 int
-ctl_modules_init() {
+ctl_modules_init() 
+{
     int i;
     for(i = 0; ctl_modules[i]; i++) {
         ctl_modules[i]->index = i;
@@ -33,6 +35,23 @@ ctl_modules_init() {
     }
 
     ctl_modules_n = i;
+
+    return CTL_OK;
+}
+
+int
+ctl_cycle_modules(ctl_cycle_t *cycle)
+{
+    cycle->modules = (ctl_module_t **) malloc((ctl_modules_n + 1)* sizeof(ctl_module_t **));
+    if(cycle->modules == NULL) {
+        ctl_perror("Error: malloc memory for cycle->modules\n");
+        return CTL_ERROR;
+    }
+
+    memset(cycle->modules, 0, (ctl_modules_n + 1)* sizeof(ctl_module_t *));
+    memcpy(cycle->modules, ctl_modules, ctl_modules_n * sizeof(ctl_module_t *));
+
+    cycle->module_n = ctl_modules_n;
 
     return CTL_OK;
 }

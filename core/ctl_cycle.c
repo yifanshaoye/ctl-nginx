@@ -1,6 +1,5 @@
 #include <ctl_core.h>
 #include <ctl_cycle.h>
-#include <ctl_modules.h>
 
 extern ctl_module_t **ctl_modules;
 extern int ctl_modules_n;
@@ -21,21 +20,28 @@ ctl_init_cycle()
     cycle->root_dir = CTL_NGX_PREFIX;
     cycle->conf_file = CTL_CONF_FILE;
 
-    void *ctx = (void *) malloc(ctl_modules_n * sizeof(void *));
+    void *ctx = (void *) malloc((ctl_modules_n + 1) * sizeof(void *));
     if(ctx == NULL) {
         ctl_perror("Error: malloc memory for cycle->ctx\n");
         return NULL;
     }
+    memset(ctx, 0, (ctl_modules_n + 1) * sizeof(void *));
 
     cycle->conf_ctx = ctx;
 
-    for(i=0; ctl_modules[i]; i++) {
-        if(ctl_modules[i]->create_conf) {
-            rv = ctl_modules[i]->create_conf(cycle);
+    if(ctl_cycle_modules(cycle) != CTL_OK) {
+        ctl_perror("Error: init cycle->modules failed\n");
+        return NULL;
+    }
+
+    for(i=0; cycle->modules[i]; i++) {
+        if(cycle->modules[i]->create_conf) {
+            rv = cycle->modules[i]->create_conf(cycle);
             if(rv == NULL) {
+                ctl_perror("Error: create conf for %s \n", cycle->modules[i]->name);
                 return NULL;
             }
-            cycle->conf_ctx[ctl_modules[i]->index] = rv;
+            cycle->conf_ctx[cycle->modules[i]->index] = rv;
         }
     }
 

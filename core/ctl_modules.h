@@ -7,6 +7,9 @@
 
 typedef struct ctl_module_s ctl_module_t;
 
+int ctl_modules_init();
+int ctl_cycle_modules(ctl_cycle_t *);
+
 struct ctl_module_s {
     int     index;
     char    *name;

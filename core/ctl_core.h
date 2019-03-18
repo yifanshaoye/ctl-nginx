@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define CTL_OK      0
 #define CTL_ERROR   -1
@@ -17,7 +18,7 @@ typedef struct ctl_core_conf_s  ctl_core_conf_t;
 #define ctl_pinfo ctl_perror
 
 #define CNGINX "0.0.1"
-#define CTL_NGX_PREFIX "/root/cnginx/ctl-nginx"
-#define CTL_CONF_FILE "/root/cnginx/ctl-nginx/conf/nginx.conf"
+#define CTL_NGX_PREFIX "/home/ctl/ctl-nginx"
+#define CTL_CONF_FILE "/home/ctl/ctl-nginx/conf/nginx.conf"
 
 #endif
