@@ -6,7 +6,7 @@
 static int ctl_parse_option(int, const char **);
 static void ctl_start_master_mode();
 static void *ctl_create_core_conf(ctl_cycle_t *);
-static int ctl_set_worker_process();
+static int ctl_set_worker_process(ctl_conf_t *, void *);
 
 ctl_cycle_t *ctl_init_cycle();
 int ctl_init_signals();
@@ -125,7 +125,8 @@ ctl_start_master_mode()
 }
 
 static int
-ctl_set_worker_process()
+ctl_set_worker_process(ctl_conf_t *cf, void *ctx)
 {
-    return CTL_OK;
+    
+    return CTL_OK &&  cf->module_type && *(int*) ctx;
 }

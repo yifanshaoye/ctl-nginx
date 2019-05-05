@@ -76,16 +76,55 @@ ctl_conf_parse(ctl_conf_t *conf, char *filename)
         }
 
         rc = ctl_conf_handler(conf, rc);
+        if(rc == CTL_ERROR) {
+            ctl_perror("Invalid Command: %s !\n", conf->name);
+            return CTL_ERROR;
+        }
 
     }
-    return CTL_ERROR;
+    return CTL_ERROR || type;
 }
 
 int
 ctl_conf_handler(ctl_conf_t *conf, int last)
 {
     ctl_pinfo("command: %s, arg: %s, %d\n", conf->name, conf->arg, last);
-    return CTL_OK;
+
+    int i, rv;
+    char *name = conf->name;
+    void *context, **pcontext;
+    ctl_command_t *cmd;
+
+    for(i = 0; conf->cycle->modules[i]; i++) {
+        cmd = conf->cycle->modules[i]->commands;
+        for(/* void */ ; cmd->name; cmd++) {
+            if(strcmp(name, cmd->name) != 0) {
+                continue;
+            }
+
+            if(conf->cycle->modules[i]->type != conf->module_type) {
+                continue;
+            }
+
+            if(!(conf->cmd_type & cmd->type)) {
+                continue;
+            }
+
+            context = NULL;
+            if(cmd->type & CTL_CORE_COMMAND) {
+                context =  ((void **)conf->ctx)[conf->cycle->modules[i]->index];
+            } else {
+                pcontext = *(void **)((char *)conf->ctx + cmd->offset);
+                if(pcontext) {
+                    context =  pcontext[conf->cycle->modules[i]->ctx_index];
+                }
+            }
+
+            rv = cmd->set(conf, context);
+            return rv;
+        }
+    }
+    return CTL_ERROR;
 }
 
 int

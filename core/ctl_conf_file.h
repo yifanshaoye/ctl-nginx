@@ -10,11 +10,11 @@
 struct ctl_command_s {
     char        *name;
     int         type;
-    int         (*set)();
+    int         (*set)(ctl_conf_t *, void *);
     int         offset;
 };
 
-#define ctl_null_command {0, 0, 0, 0}
+#define ctl_null_command {'\0', 0, NULL, 0}
 
 #define CTL_CONF_UNSET  -1
 #define CTL_ADDR_UNSET  0

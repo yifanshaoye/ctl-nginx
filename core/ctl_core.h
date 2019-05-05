@@ -21,7 +21,8 @@ typedef struct ctl_epoll_conf_s ctl_epoll_conf_t;
 
 #define CNGINX "0.0.1"
 #define CTL_NGX_PREFIX "/home/chentenglong/cnginx/ctl-nginx/"
-#define CTL_CONF_FILE "/home/chentenglong/cnginx/ctl-nginx/conf/cnginx.conf"
+//#define CTL_CONF_FILE "/home/chentenglong/cnginx/ctl-nginx/conf/cnginx.conf"
+#define CTL_CONF_FILE "/home/ctl/ctl-nginx/conf/cnginx.conf"
 
 #define LF     (u_char) '\n'
 #define CR     (u_char) '\r'
