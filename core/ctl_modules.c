@@ -4,6 +4,7 @@
 
 extern ctl_module_t ctl_core_module;
 extern ctl_module_t ctl_conf_module;
+extern ctl_module_t ctl_events_module;
 extern ctl_module_t ctl_epoll_module;
 extern ctl_module_t ctl_http_module;
 
@@ -12,6 +13,7 @@ int ctl_modules_n;
 ctl_module_t *ctl_modules[] = {
     &ctl_core_module,
     &ctl_conf_module,
+    &ctl_events_module,
     &ctl_epoll_module,
     &ctl_http_module,
     NULL
@@ -20,6 +22,7 @@ ctl_module_t *ctl_modules[] = {
 char *ctl_module_names[] = {
     "core",
     "conf",
+    "events",
     "epoll",
     "http",
     NULL

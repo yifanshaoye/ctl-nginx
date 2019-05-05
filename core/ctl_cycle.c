@@ -4,13 +4,17 @@
 extern ctl_module_t **ctl_modules;
 extern int ctl_modules_n;
 
+int ctl_conf_parse(ctl_conf_t *, char *);
+
 volatile ctl_cycle_t *ctl_cycle;
 
 ctl_cycle_t *
 ctl_init_cycle()
 {
-    int i;
-    void *rv;
+    int             i;
+    void            *rv;
+    ctl_conf_t      conf;
+
     ctl_cycle_t *cycle = (ctl_cycle_t *) malloc(sizeof(ctl_cycle_t));
     if(cycle == NULL) {
         ctl_perror("Error: malloc memory for ctl_cycle\n");
@@ -35,6 +39,9 @@ ctl_init_cycle()
     }
 
     for(i=0; cycle->modules[i]; i++) {
+        if(cycle->modules[i]->type != CTL_CORE_MODULE) {
+            continue;
+        }
         if(cycle->modules[i]->create_conf) {
             rv = cycle->modules[i]->create_conf(cycle);
             if(rv == NULL) {
@@ -43,6 +50,15 @@ ctl_init_cycle()
             }
             cycle->conf_ctx[cycle->modules[i]->index] = rv;
         }
+    }
+
+    conf.ctx = cycle->conf_ctx;
+    conf.cycle = cycle;
+    conf.module_type = CTL_CORE_MODULE;
+    conf.cmd_type = CTL_CORE_COMMAND;
+
+    if(ctl_conf_parse(&conf, cycle->conf_file) != CTL_OK) {
+        return NULL;
     }
 
     return cycle;

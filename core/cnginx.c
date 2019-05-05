@@ -24,6 +24,7 @@ static ctl_command_t ctl_core_commands[] = {
 ctl_module_t ctl_core_module = {
     CTL_MODULE_V1,
     ctl_core_commands,
+    CTL_CORE_MODULE,
     ctl_create_core_conf
 };
 

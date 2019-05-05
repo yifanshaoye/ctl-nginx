@@ -9,7 +9,7 @@ static void *ctl_create_http_conf(ctl_cycle_t *);
 static ctl_command_t ctl_http_commands[] = {
     {
         "http",
-        CTL_HTTP_COMMAND,
+        CTL_CORE_COMMAND,
         ctl_http_block,
         0
     },
@@ -19,6 +19,7 @@ static ctl_command_t ctl_http_commands[] = {
 ctl_module_t ctl_http_module = {
     CTL_MODULE_V1,
     ctl_http_commands,
+    CTL_CORE_MODULE,
     ctl_create_http_conf
 };
 
