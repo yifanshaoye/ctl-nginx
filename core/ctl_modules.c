@@ -14,7 +14,7 @@ ctl_module_t *ctl_modules[] = {
     &ctl_core_module,
     &ctl_conf_module,
     &ctl_events_module,
-    &ctl_epoll_module,
+    //&ctl_epoll_module,
     &ctl_http_module,
     NULL
 };

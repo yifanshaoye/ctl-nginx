@@ -127,6 +127,13 @@ ctl_start_master_mode()
 static int
 ctl_set_worker_process(ctl_conf_t *cf, void *ctx)
 {
+    ctl_core_conf_t *conf = ctx;
+    char *arg = cf->arg;
+    int worker;
     
-    return CTL_OK &&  cf->module_type && *(int*) ctx;
+    worker = atoi(arg);
+
+    conf->worker_processes = worker;
+
+    return CTL_OK;
 }

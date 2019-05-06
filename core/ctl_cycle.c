@@ -6,7 +6,7 @@ extern int ctl_modules_n;
 
 int ctl_conf_parse(ctl_conf_t *, char *);
 
-volatile ctl_cycle_t *ctl_cycle;
+//volatile ctl_cycle_t *ctl_cycle;
 
 ctl_cycle_t *
 ctl_init_cycle()

@@ -11,6 +11,18 @@ static ctl_command_t ctl_events_commands[] = {
         ctl_events_block,
         0
     },
+    {
+        "use",
+        CTL_CORE_COMMAND,
+        ctl_events_use,
+        0
+    },
+    {
+        "connection",
+        CTL_CORE_COMMAND,
+        ctl_events_connections,
+        0
+    },
     ctl_null_command
 };
 
